@@ -16,10 +16,28 @@ export default class Todo extends Component {
       cookie: "",
     };
   }
+  componentDidMount = () => {
+    let myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer " + Cookies.get("jwt"));
+
+    fetch(endpoint, { headers: myHeaders, mode: "cors" })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Please Login to continue");
+      })
+      .then(({ todos, currentUser }) => {
+        this.setState({ isLoggedIn: true });
+        this.loadTodos();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
   loadTodos = () => {
     let myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + Cookies.get("jwt"));
-    console.log(Cookies.get("jwt"));
     fetch(endpoint, { headers: myHeaders, mode: "cors" })
       .then((response) => {
         if (response.ok) {
@@ -72,6 +90,85 @@ export default class Todo extends Component {
         console.error("Error:", error);
       });
   };
+  deleteCheck = (event) => {
+    const item = event.target;
+    //delete todo from storage and remove from dom
+    if (item.classList[0] === "trash-btn") {
+      const todo = item.parentElement;
+      const id = todo.id;
+
+      let myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer " + Cookies.get("jwt"));
+
+      fetch(endpoint + id, {
+        method: "DELETE",
+        headers: myHeaders,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Deleted:", data);
+          let taskList = [...this.state.taskList];
+          taskList.pop(taskList.findIndex((task) => task._id === id));
+          this.setState({ taskList: taskList });
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+
+    //mark check and update the todo in the storage
+    if (item.classList[0] === "complete") {
+      const todo = item.parentElement;
+      const id = todo.id;
+
+      let myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer " + Cookies.get("jwt"));
+      myHeaders.append("Content-Type", "application/json");
+      if (todo.classList.toggle("completed")) {
+        const todoObj = { completed: true };
+
+        fetch(endpoint + id, {
+          method: "PUT", // or 'PUT'
+          headers: myHeaders,
+          body: JSON.stringify(todoObj),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Success:", data);
+            let taskList = [...this.state.taskList];
+            let task = taskList.find((task) => {
+              return task._id === id;
+            });
+            task.completed = true;
+            this.setState({ taskList: taskList });
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      } else {
+        const todoObj = { completed: false };
+        fetch(endpoint + id, {
+          method: "PUT", // or 'PUT'
+          headers: myHeaders,
+          body: JSON.stringify(todoObj),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Success:", data);
+            let taskList = [...this.state.taskList];
+            let task = taskList.find((task) => {
+              return task._id === id;
+            });
+            task.completed = false;
+            this.setState({ taskList: taskList });
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+    }
+  };
+
   render() {
     return (
       <div>
@@ -82,7 +179,10 @@ export default class Todo extends Component {
               <input type="submit" value="add task" />
             </form>
             <h2>Tasks List</h2>
-            <TodoList taskList={this.state.taskList} />
+            <TodoList
+              taskList={this.state.taskList}
+              deleteCheck={this.deleteCheck}
+            />
           </div>
         ) : (
           <Login
