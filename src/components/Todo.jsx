@@ -13,7 +13,6 @@ export default class Todo extends Component {
       isLoggedIn: false,
       email: "",
       password: "",
-      cookie: "",
     };
   }
   componentDidMount = () => {
@@ -61,6 +60,9 @@ export default class Todo extends Component {
   setPassword = (event) => {
     this.setState({ password: event.target.value });
   };
+  setTaskName = (event) => {
+    this.setState({ taskName: event.target.value });
+  };
   login = (event) => {
     event.preventDefault();
     console.log("singing ining");
@@ -85,6 +87,29 @@ export default class Todo extends Component {
         Cookies.set("jwt", data.data[0]["jwt"]);
         this.setState({ isLoggedIn: true });
         this.loadTodos();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+  addTodo = (event) => {
+    event.preventDefault();
+    const todoObj = { description: this.state.taskName };
+    let myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer " + Cookies.get("jwt"));
+    myHeaders.append("Content-Type", "application/json");
+
+    fetch(endpoint, {
+      method: "POST", // or 'PUT'
+      headers: myHeaders,
+      body: JSON.stringify(todoObj),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        let taskList = [...this.state.taskList];
+        taskList.push(data["data"]);
+        this.setState({ taskList: taskList, taskName: "" });
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -174,8 +199,13 @@ export default class Todo extends Component {
       <div>
         {this.state.isLoggedIn ? (
           <div>
-            <form action="">
-              <input type="text" name="taskName" />
+            <form action="" onSubmit={this.addTodo}>
+              <input
+                type="text"
+                name="taskName"
+                onChange={this.setTaskName}
+                value={this.state.taskName}
+              />
               <input type="submit" value="add task" />
             </form>
             <h2>Tasks List</h2>
