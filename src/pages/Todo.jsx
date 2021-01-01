@@ -4,6 +4,7 @@ import TodoList from "../components/TodoList";
 import { endpoint, login } from "../endpoints";
 import Cookies from "js-cookie";
 import "../App.css";
+import "../styles/form.css";
 
 export default class Todo extends Component {
   constructor() {
