@@ -10,9 +10,9 @@ export default class Signup extends Component {
           action=""
           method="post"
           name="signup"
-          enctype="application/x-www-form-urlencoded"
+          encType="application/x-www-form-urlencoded"
         >
-          <label for="firstName">
+          <label htmlFor="firstName">
             <b>First Name</b>
           </label>
           <input
@@ -23,7 +23,7 @@ export default class Signup extends Component {
           />
           <br />
 
-          <label for="lastName">
+          <label htmlFor="lastName">
             <b>Last Name</b>
           </label>
           <input
@@ -34,13 +34,13 @@ export default class Signup extends Component {
           />
           <br />
 
-          <label for="email">
+          <label htmlFor="email">
             <b>Email</b>
           </label>
           <input type="text" placeholder="Enter Email" name="email" required />
           <br />
 
-          <label for="username">
+          <label htmlFor="username">
             <b>Username</b>
           </label>
           <input
@@ -51,7 +51,7 @@ export default class Signup extends Component {
           />
           <br />
 
-          <label for="password">
+          <label htmlFor="password">
             <b>Password</b>
           </label>
           <input
@@ -62,7 +62,7 @@ export default class Signup extends Component {
           />
           <br />
 
-          <label for="confirmPassword">
+          <label htmlFor="confirmPassword">
             <b>Confirm Password</b>
           </label>
           <input
@@ -72,11 +72,11 @@ export default class Signup extends Component {
             required
           />
           <br />
-          <input type="submit" class="signupbtn" value="Sign Up" />
+          <input type="submit" className="signupbtn" value="Sign Up" />
           <hr />
           <p>
             Already have an account?
-            <a href="/blog-frontend/login.html">Sign in</a>.
+            <a href="/login">Sign in</a>.
           </p>
         </form>
       </div>

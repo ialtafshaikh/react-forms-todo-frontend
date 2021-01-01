@@ -3,7 +3,8 @@ import React, { Component } from "react";
 export default class Login extends Component {
   render() {
     return (
-      <div>
+      <div className="form-container">
+        <h1 className="form-title">User Login Form</h1>
         <form
           action=""
           method=""
@@ -27,7 +28,12 @@ export default class Login extends Component {
             value={this.props.password}
           />
           <br />
-          <input type="submit" value="Login" />
+          <input type="submit" className="loginbtn" value="Login" />
+          <hr />
+          <p>
+            don't have an account?
+            <a href="/signup">SignUp Here</a>.
+          </p>
         </form>
       </div>
     );
