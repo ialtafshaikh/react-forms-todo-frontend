@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import Login from "./Login";
-import TodoList from "./TodoList";
+import TodoList from "../components/TodoList";
 import { endpoint, login } from "../endpoints";
 import Cookies from "js-cookie";
+import "../App.css";
 
 export default class Todo extends Component {
   constructor() {
@@ -24,6 +25,7 @@ export default class Todo extends Component {
         if (response.ok) {
           return response.json();
         }
+        alert("Please Login to continue");
         throw new Error("Please Login to continue");
       })
       .then(({ todos, currentUser }) => {
@@ -198,21 +200,23 @@ export default class Todo extends Component {
     return (
       <div>
         {this.state.isLoggedIn ? (
-          <div>
-            <form action="" onSubmit={this.addTodo}>
-              <input
-                type="text"
-                name="taskName"
-                onChange={this.setTaskName}
-                value={this.state.taskName}
+          <div className="App">
+            <header className="App-header">
+              <form action="" onSubmit={this.addTodo}>
+                <input
+                  type="text"
+                  name="taskName"
+                  onChange={this.setTaskName}
+                  value={this.state.taskName}
+                />
+                <input type="submit" value="add task" />
+              </form>
+              <h2>Tasks List</h2>
+              <TodoList
+                taskList={this.state.taskList}
+                deleteCheck={this.deleteCheck}
               />
-              <input type="submit" value="add task" />
-            </form>
-            <h2>Tasks List</h2>
-            <TodoList
-              taskList={this.state.taskList}
-              deleteCheck={this.deleteCheck}
-            />
+            </header>
           </div>
         ) : (
           <Login
