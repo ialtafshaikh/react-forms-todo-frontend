@@ -49,7 +49,7 @@ export default class Todo extends Component {
         throw new Error("Please Login to continue");
       })
       .then(({ todos, currentUser }) => {
-        console.log(todos);
+        // console.log(todos);
         this.setState({ taskList: todos });
       })
       .catch((error) => {
@@ -90,6 +90,7 @@ export default class Todo extends Component {
     formData.forEach(function (value, key) {
       formObject[key] = value;
     });
+    console.log(JSON.stringify(formObject));
 
     fetch(login, {
       method: "POST", // or 'PUT'
@@ -102,7 +103,6 @@ export default class Todo extends Component {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         if (data.status.status === "unsuccessful") {
           this.setState({ loginError: data.status.message });
           return;
@@ -218,12 +218,20 @@ export default class Todo extends Component {
     }
   };
 
+  logout = (event) => {
+    Cookies.remove("jwt");
+    this.setState({ isLoggedIn: false });
+  };
+
   render() {
     return (
       <div>
         {this.state.isLoggedIn ? (
           <div className="App">
             <header className="App-header">
+              <button onClick={this.logout}>Logout</button>
+              <br />
+              <br />
               <form action="" onSubmit={this.addTodo}>
                 <input
                   type="text"

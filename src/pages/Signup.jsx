@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import { signup } from "../endpoints";
 
 export default class Signup extends Component {
+  constructor() {
+    super();
+    this.state = {
+      signupError: "",
+    };
+  }
   signup = (event) => {
     event.preventDefault();
     var formData = new FormData(event.target);
@@ -20,8 +26,10 @@ export default class Signup extends Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
-        console.log(this.props);
+        if (data.status.status === "unsuccessful") {
+          this.setState({ signupError: data.status.message });
+          return;
+        }
         this.props.history.push("/");
       })
       .catch((error) => {
@@ -32,6 +40,7 @@ export default class Signup extends Component {
     return (
       <div className="form-container">
         <h1 className="form-title">User Registration Form</h1>
+        <p className="error">{this.state.signupError}</p>
 
         <form
           action=""
@@ -80,7 +89,10 @@ export default class Signup extends Component {
           <br />
 
           <label htmlFor="password">
-            <b>Password</b>
+            <b>
+              Password: **atleast 1 cap, 1 number, 1 special symbol, total 8
+              letter
+            </b>
           </label>
           <input
             type="password"
