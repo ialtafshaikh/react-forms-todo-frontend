@@ -5,7 +5,6 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 //pages
 import Todo from "../pages/Todo";
-import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 
 export default class Router extends Component {
@@ -15,7 +14,6 @@ export default class Router extends Component {
         <BrowserRouter>
           <Switch>
             <Route path="/" exact component={Todo} />
-            <Route path="/login" exact component={Login} />
             <Route path="/signup" exact component={Signup} />
           </Switch>
         </BrowserRouter>
