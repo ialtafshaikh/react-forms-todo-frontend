@@ -11,12 +11,12 @@ export default class Login extends Component {
           encType="application/x-www-form-urlencoded"
           onSubmit={this.props.login}
         >
-          <label htmlFor="email">Email </label>
+          <label htmlFor="username">Username </label>
           <input
-            type="email"
-            name="email"
-            onChange={this.props.setEmail}
-            value={this.props.email}
+            type="text"
+            name="username"
+            onChange={this.props.setUsername}
+            value={this.props.username}
           />
           <br />
           <label htmlFor="password">Password </label>

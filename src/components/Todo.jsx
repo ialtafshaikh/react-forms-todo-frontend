@@ -11,7 +11,7 @@ export default class Todo extends Component {
       taskName: "",
       taskList: [],
       isLoggedIn: false,
-      email: "",
+      username: "",
       password: "",
     };
   }
@@ -53,8 +53,8 @@ export default class Todo extends Component {
       });
   };
 
-  setEmail = (event) => {
-    this.setState({ email: event.target.value });
+  setUsername = (event) => {
+    this.setState({ username: event.target.value });
   };
 
   setPassword = (event) => {
@@ -217,8 +217,8 @@ export default class Todo extends Component {
         ) : (
           <Login
             login={this.login}
-            setEmail={this.setEmail}
-            email={this.state.email}
+            setUsername={this.setUsername}
+            username={this.state.username}
             password={this.state.password}
             setPassword={this.setPassword}
           />
