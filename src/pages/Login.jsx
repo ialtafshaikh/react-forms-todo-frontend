@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "../styles/form.css";
 
 export default class Login extends Component {
   render() {
