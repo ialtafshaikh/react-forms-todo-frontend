@@ -16,26 +16,26 @@ export default class Todo extends Component {
       password: "",
     };
   }
-  componentDidMount = () => {
-    let myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + Cookies.get("jwt"));
+  // componentDidMount = () => {
+  //   let myHeaders = new Headers();
+  //   myHeaders.append("Authorization", "Bearer " + Cookies.get("jwt"));
 
-    fetch(endpoint, { headers: myHeaders, mode: "cors" })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        alert("Please Login to continue");
-        throw new Error("Please Login to continue");
-      })
-      .then(({ todos, currentUser }) => {
-        this.setState({ isLoggedIn: true });
-        this.loadTodos();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
+  //   fetch(endpoint, { headers: myHeaders, mode: "cors" })
+  //     .then((response) => {
+  //       if (response.ok) {
+  //         return response.json();
+  //       }
+  //       // alert("Please Login to continue");
+  //       throw new Error("Please Login to continue");
+  //     })
+  //     .then(({ todos, currentUser }) => {
+  //       this.setState({ isLoggedIn: true });
+  //       this.loadTodos();
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //     });
+  // };
   loadTodos = () => {
     let myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + Cookies.get("jwt"));
@@ -67,7 +67,22 @@ export default class Todo extends Component {
   };
   login = (event) => {
     event.preventDefault();
-    console.log("singing ining");
+
+    if (this.state.username === "" && this.state.password === "") {
+      console.log("username and password field empty");
+      return;
+    }
+
+    if (this.state.username === "") {
+      console.log("username field empty");
+      return;
+    }
+
+    if (this.state.password === "") {
+      console.log("password field empty");
+      return;
+    }
+
     var formData = new FormData(event.target);
 
     var formObject = {};
@@ -82,10 +97,11 @@ export default class Todo extends Component {
       },
       body: JSON.stringify(formObject),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+        response.json();
+      })
       .then((data) => {
-        console.log("Success:", data);
-        //   console.log("jwt=" + data.data[0]["jwt"]);
         Cookies.set("jwt", data.data[0]["jwt"]);
         this.setState({ isLoggedIn: true });
         this.loadTodos();
@@ -94,6 +110,7 @@ export default class Todo extends Component {
         console.error("Error:", error);
       });
   };
+
   addTodo = (event) => {
     event.preventDefault();
     const todoObj = { description: this.state.taskName };

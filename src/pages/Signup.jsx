@@ -1,6 +1,33 @@
 import React, { Component } from "react";
+import { signup } from "../endpoints";
 
 export default class Signup extends Component {
+  signup = (event) => {
+    event.preventDefault();
+    var formData = new FormData(event.target);
+
+    var formObject = {};
+    formData.forEach(function (value, key) {
+      formObject[key] = value;
+    });
+
+    fetch(signup, {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formObject),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        console.log(this.props);
+        this.props.history.push("/login");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
   render() {
     return (
       <div className="form-container">
@@ -11,6 +38,7 @@ export default class Signup extends Component {
           method="post"
           name="signup"
           encType="application/x-www-form-urlencoded"
+          onSubmit={this.signup}
         >
           <label htmlFor="firstName">
             <b>First Name</b>
