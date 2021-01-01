@@ -22,7 +22,7 @@ export default class Signup extends Component {
       .then((data) => {
         console.log("Success:", data);
         console.log(this.props);
-        this.props.history.push("/login");
+        this.props.history.push("/");
       })
       .catch((error) => {
         console.error("Error:", error);

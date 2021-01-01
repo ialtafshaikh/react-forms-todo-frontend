@@ -14,28 +14,29 @@ export default class Todo extends Component {
       isLoggedIn: false,
       username: "",
       password: "",
+      loginError: "",
     };
   }
-  // componentDidMount = () => {
-  //   let myHeaders = new Headers();
-  //   myHeaders.append("Authorization", "Bearer " + Cookies.get("jwt"));
+  componentDidMount = () => {
+    let myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer " + Cookies.get("jwt"));
 
-  //   fetch(endpoint, { headers: myHeaders, mode: "cors" })
-  //     .then((response) => {
-  //       if (response.ok) {
-  //         return response.json();
-  //       }
-  //       // alert("Please Login to continue");
-  //       throw new Error("Please Login to continue");
-  //     })
-  //     .then(({ todos, currentUser }) => {
-  //       this.setState({ isLoggedIn: true });
-  //       this.loadTodos();
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //     });
-  // };
+    fetch(endpoint, { headers: myHeaders, mode: "cors" })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        // alert("Please Login to continue");
+        throw new Error("Please Login to continue");
+      })
+      .then(({ todos, currentUser }) => {
+        this.setState({ isLoggedIn: true });
+        this.loadTodos();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
   loadTodos = () => {
     let myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + Cookies.get("jwt"));
@@ -69,17 +70,16 @@ export default class Todo extends Component {
     event.preventDefault();
 
     if (this.state.username === "" && this.state.password === "") {
-      console.log("username and password field empty");
+      this.setState({ loginError: "username and password field empty" });
       return;
     }
-
     if (this.state.username === "") {
-      console.log("username field empty");
+      this.setState({ loginError: "username field empty" });
       return;
     }
 
     if (this.state.password === "") {
-      console.log("password field empty");
+      this.setState({ loginError: "password field empty" });
       return;
     }
 
@@ -98,10 +98,14 @@ export default class Todo extends Component {
       body: JSON.stringify(formObject),
     })
       .then((response) => {
-        console.log(response);
-        response.json();
+        return response.json();
       })
       .then((data) => {
+        console.log(data);
+        if (data.status.status === "unsuccessful") {
+          this.setState({ loginError: data.status.message });
+          return;
+        }
         Cookies.set("jwt", data.data[0]["jwt"]);
         this.setState({ isLoggedIn: true });
         this.loadTodos();
@@ -242,6 +246,7 @@ export default class Todo extends Component {
             username={this.state.username}
             password={this.state.password}
             setPassword={this.setPassword}
+            error={this.state.loginError}
           />
         )}
       </div>

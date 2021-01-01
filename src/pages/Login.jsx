@@ -6,6 +6,7 @@ export default class Login extends Component {
     return (
       <div className="form-container">
         <h1 className="form-title">User Login Form</h1>
+        <p className="error">{this.props.error}</p>
         <form
           action=""
           method=""
