@@ -104,7 +104,7 @@ export default class Signup extends Component {
           <hr />
           <p>
             Already have an account?
-            <a href="/login">Sign in</a>.
+            <a href="/">Sign in</a>.
           </p>
         </form>
       </div>
