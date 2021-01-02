@@ -12,6 +12,23 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Downloading and Running this Project Locally
+
+1. clone the repository
+```
+git clone https://github.com/ialtafshaikh/react-forms-todo-frontend.git
+```
+
+2. change directory to `cd react-forms-todo-frontend`
+
+3. run command `npm i` to install all dependencies
+
+4. now to run the app run the below command:
+
+  `
+  npm run start
+  `
+
 ## Available Scripts
 
 In the project directory, you can run:
