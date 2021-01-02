@@ -1,5 +1,12 @@
 # Login Page Form Submission
  The application UI makes use of the backend endpoints created during node.js training session. The endpoints provides a login and signup functionality.
+ 
+## Features
+- login page to login into system using node auth backend
+- signup page to register user into the system
+- logout to terminate the user session.
+- react app is hosted on **Vercel**
+- all auth login is implemented on node auth server running on heroku
 
 ## Getting Started with Create React App
 
