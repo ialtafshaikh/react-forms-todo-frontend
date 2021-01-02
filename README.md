@@ -25,9 +25,9 @@ git clone https://github.com/ialtafshaikh/react-forms-todo-frontend.git
 
 4. now to run the app run the below command:
 
-  `
+  ```
   npm run start
-  `
+  ```
 
 ## Available Scripts
 
