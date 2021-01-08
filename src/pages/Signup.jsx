@@ -6,6 +6,12 @@ export default class Signup extends Component {
     super();
     this.state = {
       signupError: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      username: "",
+      password: "",
+      confirmPassword: "",
     };
   }
   signup = (event) => {
@@ -36,6 +42,31 @@ export default class Signup extends Component {
         console.error("Error:", error);
       });
   };
+
+  setFirstName = (event) => {
+    this.setState({ firstName: event.target.value });
+  };
+
+  setLastName = (event) => {
+    this.setState({ lastName: event.target.value });
+  };
+
+  setEmail = (event) => {
+    this.setState({ email: event.target.value });
+  };
+
+  setUsername = (event) => {
+    this.setState({ username: event.target.value });
+  };
+
+  setPassword = (event) => {
+    this.setState({ password: event.target.value });
+  };
+
+  setConfirmPassword = (event) => {
+    this.setState({ confirmPassword: event.target.value });
+  };
+
   render() {
     return (
       <div className="form-container">
@@ -57,6 +88,8 @@ export default class Signup extends Component {
             placeholder="Enter First Name"
             name="firstName"
             required
+            onChange={this.setFirstName}
+            value={this.state.firstName}
           />
           <br />
 
@@ -68,13 +101,22 @@ export default class Signup extends Component {
             placeholder="Enter Last Name"
             name="lastName"
             required
+            onChange={this.setLastName}
+            value={this.state.lastName}
           />
           <br />
 
           <label htmlFor="email">
             <b>Email</b>
           </label>
-          <input type="text" placeholder="Enter Email" name="email" required />
+          <input
+            type="text"
+            placeholder="Enter Email"
+            name="email"
+            required
+            onChange={this.setEmail}
+            value={this.state.email}
+          />
           <br />
 
           <label htmlFor="username">
@@ -85,6 +127,8 @@ export default class Signup extends Component {
             placeholder="Enter Username"
             name="username"
             required
+            onChange={this.setUsername}
+            value={this.state.username}
           />
           <br />
 
@@ -99,6 +143,8 @@ export default class Signup extends Component {
             placeholder="Enter Password"
             name="password"
             required
+            onChange={this.setPassword}
+            value={this.state.password}
           />
           <br />
 
@@ -110,6 +156,8 @@ export default class Signup extends Component {
             placeholder="Confirm Password"
             name="confirmPassword"
             required
+            onChange={this.setConfirmPassword}
+            value={this.state.confirmPassword}
           />
           <br />
           <input type="submit" className="signupbtn" value="Sign Up" />
