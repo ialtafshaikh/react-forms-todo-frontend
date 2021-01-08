@@ -16,19 +16,16 @@ export default class Signup extends Component {
   }
   signup = (event) => {
     event.preventDefault();
-    var formData = new FormData(event.target);
+    let stateForm = { ...this.state };
 
-    var formObject = {};
-    formData.forEach(function (value, key) {
-      formObject[key] = value;
-    });
+    delete stateForm["signupError"];
 
     fetch(signup, {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formObject),
+      body: JSON.stringify(stateForm),
     })
       .then((response) => response.json())
       .then((data) => {
